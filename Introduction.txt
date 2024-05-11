@@ -311,4 +311,25 @@ public:
         }
     }
 };
+class BookingHistory {
+private:
+    map<string, vector<string>> history;
+
+public:
+    void addBooking(const string& username, const string& roomType) {
+        history[username].push_back(roomType);
+        cout << "Booking added to history!" << endl;
+    }
+
+    void displayBookingHistory(const string& username) {
+        if (history.find(username) != history.end()) {
+            cout << "Booking History for " << username << ":" << endl;
+            for (const string& booking : history[username]) {
+                cout << booking << endl;
+            }
+        } else {
+            cout << "No booking history found for " << username << "." << endl;
+        }
+    }
+};
 
