@@ -162,3 +162,57 @@ public:
     }
 };
 
+class RoomAvailability {
+private:
+    map<string, int> roomAvailability;
+
+public:
+    RoomAvailability() {
+        roomAvailability["Single"] = 5;
+        roomAvailability["Double"] = 3;
+        roomAvailability["Suite"] = 2;
+    }
+
+    bool isRoomAvailable(const string& roomType) {
+        return roomAvailability[roomType] > 0;
+    }
+
+    void bookRoom(const string& roomType) {
+        if (roomAvailability[roomType] > 0) {
+            roomAvailability[roomType]--;
+            cout << "Booking successful! You have booked a " << roomType << " room." << endl;
+        } else {
+            cout << "Sorry, " << roomType << " rooms are currently unavailable." << endl;
+        }
+    }
+
+    void checkIn(const string& roomType) {
+        if (roomAvailability.find(roomType) != roomAvailability.end()) {
+            cout << "Welcome! You have checked in to a " << roomType << " room." << endl;
+        } else {
+            cout << "You have not booked any room. Please book a room first." << endl;
+        }
+    }
+
+    void checkOut(const string& roomType) {
+        if (roomAvailability.find(roomType) != roomAvailability.end()) {
+            roomAvailability[roomType]++;
+            cout << "Thank you for staying with us. Goodbye!" << endl;
+        } else {
+            cout << "You have not checked in yet." << endl;
+        }
+    }
+
+    void updateRoomAvailability(const string& roomType, int count) {
+        roomAvailability[roomType] = count;
+        cout << "Room availability updated successfully!" << endl;
+    }
+
+    void displayRoomAvailability() {
+        cout << "Room Availability:" << endl;
+        for (const auto& pair : roomAvailability) {
+            cout << pair.first << " Room: " << pair.second << endl;
+        }
+    }
+};
+
