@@ -151,3 +151,14 @@ public:
     }
 };
 
+class PaymentProcessor {
+public:
+    void processPayment() {
+        cout << "Please enter your payment details:" << endl;
+        string paymentDetails;
+        cout << "Enter credit/debit card details: ";
+        cin >> paymentDetails;
+        cout << "Payment processed successfully!" << endl;
+    }
+};
+
