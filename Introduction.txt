@@ -41,3 +41,26 @@ public:
         cout << endl;
     }
 };
+class RoomDetails {
+private:
+    string roomType;
+    bool wifiAvailable;
+    bool tvAvailable;
+    string view;
+
+public:
+    RoomDetails(const string& type, bool wifi, bool tv, const string& roomView) {
+        roomType = type;
+        wifiAvailable = wifi;
+        tvAvailable = tv;
+        view = roomView;
+    }
+
+    void displayRoomDetails() {
+        cout << "Room Type: " << roomType << endl;
+        cout << "WiFi: " << (wifiAvailable ? "Available" : "Not Available") << endl;
+        cout << "TV: " << (tvAvailable ? "Available" : "Not Available") << endl;
+        cout << "View: " << view << endl;
+    }
+};
+
