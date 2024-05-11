@@ -232,3 +232,28 @@ public:
     }
 };
 
+class BookingModification {
+private:
+    map<string, pair<string, string>> bookingModifications;
+
+public:
+    void requestBookingModification(const string& username, const string& newRoomType) {
+        bookingModifications[username] = make_pair(newRoomType, "Pending");
+        cout << "Booking modification request sent successfully!" << endl;
+    }
+
+    void processBookingModification(const string& username, bool approve) {
+        if (bookingModifications.find(username) != bookingModifications.end()) {
+            if (approve) {
+                string newRoomType = bookingModifications[username].first;
+                cout << "Booking modification approved. User " << username << " has changed to a " << newRoomType << " room." << endl;
+            } else {
+                cout << "Booking modification request for user " << username << " rejected." << endl;
+            }
+            bookingModifications.erase(username);
+        } else {
+            cout << "No booking modification request found for user " << username << "." << endl;
+        }
+    }
+};
+
