@@ -257,3 +257,23 @@ public:
     }
 };
 
+class NotificationSystem {
+private:
+    map<string, vector<string>> notifications;
+
+public:
+    void addNotification(const string& username, const string& notification) {
+        notifications[username].push_back(notification);
+    }
+
+    void displayNotifications(const string& username) {
+        if (notifications.find(username) != notifications.end()) {
+            cout << "Notifications for " << username << ":" << endl;
+            for (const string& notification : notifications[username]) {
+                cout << notification << endl;
+            }
+        } else {
+            cout << "No notifications for " << username << "." << endl;
+        }
+    }
+};
