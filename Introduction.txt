@@ -333,3 +333,218 @@ public:
     }
 };
 
+int main() {
+    RoomRates roomRates;
+    UserAuthenticator authenticator;
+    PaymentProcessor processor;
+    RoomAvailability availability;
+    Housekeeping housekeeping(&availability);
+    BookingModification bookingModifier;
+    NotificationSystem notifier;
+    FeedbackAndReviewSystem feedbackAndReview;
+    BookingHistory bookingHistory;
+
+    int choice;
+    string username, password, role, roomType;
+
+    bool continueLoop = true;
+    while (continueLoop) {
+        cout << "Choose an option:" << endl;
+        cout << "1. Sign Up" << endl;
+        cout << "2. Login" << endl;
+        cout << "3. View Room Details" << endl;
+        cout << "4. Book a Room" << endl;
+        cout << "5. View Room Prices" << endl;
+        cout << "6. Set Room Price" << endl;
+        cout << "7. Make Payment" << endl;
+        cout << "8. Check Room Availability" << endl;
+        cout << "9. Check-In" << endl;
+        cout << "10. Check-Out" << endl;
+        cout << "11. Update Room Availability" << endl;
+        cout << "12. Display Room Availability" << endl;
+        cout << "13. Display Room Status" << endl;
+        cout << "14. Request Booking Modification" << endl;
+        cout << "15. Process Booking Modification" << endl;
+        cout << "16. Submit Feedback" << endl;
+        cout << "17. Submit Review" << endl;
+        cout << "18. Display Feedback" << endl;
+        cout << "19. Display Review" << endl;
+        cout << "20. Add Notification" << endl;
+        cout << "21. View Notifications" << endl;
+        cout << "22. View Booking History" << endl;
+        cout << "23. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch(choice) {
+            case 1:
+                cout << "Enter username: ";
+                cin >> username;
+                cout << "Enter password: ";
+                cin >> password;
+                cout << "Enter role (admin/user): ";
+                cin >> role;
+                if (!authenticator.hasSignedUp(username)) {
+                    authenticator.signUp(username, password, role);
+                } else {
+                    cout << "User already signed up!" << endl;
+                }
+                break;
+
+            case 2:
+                cout << "Enter username: ";
+                cin >> username;
+                cout << "Enter password: ";
+                cin >> password;
+                if(authenticator.authenticateUser(username, password)) {
+                    string userRole = authenticator.authorizeUser(username);
+                    if (!userRole.empty()) {
+                        cout << "User role: " << userRole << endl;
+                    } else {
+                        cout << "Failed to authorize user." << endl;
+                    }
+                }
+                break;
+
+            case 3:
+                authenticator.displayRoomDetails();
+                break;
+
+            case 4:
+                authenticator.bookRoom();
+                bookingHistory.addBooking(username, roomType);
+                break;
+
+            case 5:
+                roomRates.displayRoomPrices();
+                break;
+
+            case 6:
+                cout << "Enter room type (Single/Double/Suite): ";
+                cin >> roomType;
+                cout << "Enter new price per night: $";
+                double price;
+                cin >> price;
+                roomRates.setPrice(roomType, price);
+                cout << "Price for " << roomType << " room set to $" << price << " per night." << endl;
+                break;
+
+            case 7:
+                processor.processPayment();
+                break;
+
+            case 8:
+                cout << "Enter room type (Single/Double/Suite): ";
+                cin >> roomType;
+                if (availability.isRoomAvailable(roomType)) {
+                    cout << "Room type " << roomType << " is available." << endl;
+                } else {
+                    cout << "Room type " << roomType << " is not available." << endl;
+                }
+                break;
+
+            case 9:
+                cout << "Enter room type for check-in (Single/Double/Suite): ";
+                cin >> roomType;
+                availability.checkIn(roomType);
+                break;
+
+            case 10:
+                cout << "Enter room type for check-out (Single/Double/Suite): ";
+                cin >> roomType;
+                availability.checkOut(roomType);
+                break;
+
+            case 11:
+                {
+                    string roomType;
+                    int count;
+                    cout << "Enter room type (Single/Double/Suite): ";
+                    cin >> roomType;
+                    cout << "Enter new count: ";
+                    cin >> count;
+                    housekeeping.updateRoomStatus(roomType, count);
+                }
+                break;
+
+            case 12:
+                availability.displayRoomAvailability();
+                break;
+
+            case 13:
+                housekeeping.displayRoomStatus();
+                break;
+
+            case 14:
+                {
+                    string feedback;
+                    cout << "Enter your username: ";
+                    cin >> username;
+                    cout << "Enter feedback: ";
+                    cin.ignore();
+                    getline(cin, feedback);
+                    feedbackAndReview.submitFeedback(username, feedback);
+                }
+                break;
+
+            case 15:
+                {
+                    string review;
+                    cout << "Enter your username: ";
+                    cin >> username;
+                    cout << "Enter review: ";
+                    cin.ignore();
+                    getline(cin, review);
+                    feedbackAndReview.submitReview(username, review);
+                }
+                break;
+
+            case 16:
+                cout << "Enter your username to view feedback: ";
+                cin >> username;
+                feedbackAndReview.displayFeedback(username);
+                break;
+
+            case 17:
+                cout << "Enter your username to view review: ";
+                cin >> username;
+                feedbackAndReview.displayReview(username);
+                break;
+
+            case 18:
+                {
+                    string notification;
+                    cout << "Enter username to send notification to: ";
+                    cin >> username;
+                    cout << "Enter notification: ";
+                    cin.ignore();
+                    getline(cin, notification);
+                    notifier.addNotification(username, notification);
+                    cout << "Notification added successfully!" << endl;
+                }
+                break;
+
+            case 19:
+                cout << "Enter your username: ";
+                cin >> username;
+                notifier.displayNotifications(username);
+                break;
+
+            case 20:
+                cout << "Enter your username to view booking history: ";
+                cin >> username;
+                bookingHistory.displayBookingHistory(username);
+                break;
+
+            case 21:
+                continueLoop = false;
+                break;
+
+            default:
+                cout << "Invalid choice. Please choose again." << endl;
+                break;
+        }
+    }
+
+    return 0;
+}
