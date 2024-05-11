@@ -277,3 +277,38 @@ public:
         }
     }
 };
+class FeedbackAndReviewSystem {
+private:
+    map<string, string> feedbacks;
+    map<string, string> reviews;
+
+public:
+    void submitFeedback(const string& username, const string& feedback) {
+        feedbacks[username] = feedback;
+        cout << "Feedback submitted successfully!" << endl;
+    }
+
+    void submitReview(const string& username, const string& review) {
+        reviews[username] = review;
+        cout << "Review submitted successfully!" << endl;
+    }
+
+    void displayFeedback(const string& username) {
+        if (feedbacks.find(username) != feedbacks.end()) {
+            cout << "Feedback for " << username << ":" << endl;
+            cout << feedbacks[username] << endl;
+        } else {
+            cout << "No feedback found for " << username << "." << endl;
+        }
+    }
+
+    void displayReview(const string& username) {
+        if (reviews.find(username) != reviews.end()) {
+            cout << "Review for " << username << ":" << endl;
+            cout << reviews[username] << endl;
+        } else {
+            cout << "No review found for " << username << "." << endl;
+        }
+    }
+};
+
