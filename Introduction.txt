@@ -64,3 +64,90 @@ public:
     }
 };
 
+class UserAuthenticator {
+private:
+    map<string, string> users;
+    map<string, string> userRoles;
+    map<string, bool> signedUpUsers;
+
+public:
+    UserAuthenticator() {}
+
+    bool authenticateUser(const string& username, const string& password) {
+        map<string, string>::iterator it = users.find(username);
+        if (it != users.end() && it->second == password) {
+            cout << "User authenticated successfully!" << endl;
+            return true;
+        }
+        cout << "Invalid username or password." << endl;
+        return false;
+    }
+
+    bool hasSignedUp(const string& username) {
+        return signedUpUsers[username];
+    }
+
+    string authorizeUser(const string& username) {
+        map<string, string>::iterator it = userRoles.find(username);
+        if (it != userRoles.end()) {
+            return it->second;
+        }
+        return "";
+    }
+
+    void signUp(const string& username, const string& password, const string& role) {
+        users[username] = password;
+        userRoles[username] = role;
+        signedUpUsers[username] = true;
+        cout << "Sign up successful!" << endl;
+    }
+
+    void displayRoomDetails() {
+        RoomDetails singleRoom("Single", true, true, "City View");
+        RoomDetails doubleRoom("Double", true, true, "Garden View");
+        RoomDetails suiteRoom("Suite", true, true, "Ocean View");
+
+        cout << "Room Details:" << endl;
+        cout << "1. Single Room" << endl;
+        singleRoom.displayRoomDetails();
+        cout << endl;
+
+        cout << "2. Double Room" << endl;
+        doubleRoom.displayRoomDetails();
+        cout << endl;
+
+        cout << "3. Suite Room" << endl;
+        suiteRoom.displayRoomDetails();
+        cout << endl;
+    }
+
+    void bookRoom() {
+        cout << "Available Rooms:" << endl;
+        cout << "1. Single Room" << endl;
+        cout << "2. Double Room" << endl;
+        cout << "3. Suite Room" << endl;
+
+        int roomChoice;
+        cout << "Enter room choice (1/2/3): ";
+        cin >> roomChoice;
+
+        string roomType;
+        switch(roomChoice) {
+            case 1:
+                roomType = "Single";
+                break;
+            case 2:
+                roomType = "Double";
+                break;
+            case 3:
+                roomType = "Suite";
+                break;
+            default:
+                cout << "Invalid room choice!" << endl;
+                return;
+        }
+
+        cout << "You have chosen to book a " << roomType << " room." << endl;
+    }
+};
+
