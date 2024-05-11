@@ -215,4 +215,20 @@ public:
         }
     }
 };
+class Housekeeping {
+private:
+    RoomAvailability* availability;
+
+public:
+    Housekeeping(RoomAvailability* avail) : availability(avail) {}
+
+    void updateRoomStatus(const string& roomType, int count) {
+        availability->updateRoomAvailability(roomType, count);
+        cout << "Room status updated successfully!" << endl;
+    }
+
+    void displayRoomStatus() {
+        availability->displayRoomAvailability();
+    }
+};
 
