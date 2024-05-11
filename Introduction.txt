@@ -3,3 +3,41 @@ Waleed Zaman 23-st-001
 Muhammad Saad 23-st-035
 
 Online Hotel Management System
+
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class RoomRates {
+private:
+    map<string, double> roomPrices;
+
+public:
+    RoomRates() {
+        roomPrices["Single"] = 100.0;
+        roomPrices["Double"] = 150.0;
+        roomPrices["Suite"] = 200.0;
+    }
+
+    double getPrice(const string& roomType) {
+        if (roomPrices.find(roomType) != roomPrices.end()) {
+            return roomPrices[roomType];
+        }
+        return 0.0;
+    }
+
+    void setPrice(const string& roomType, double price) {
+        roomPrices[roomType] = price;
+    }
+
+    void displayRoomPrices() {
+        cout << "Room Prices:" << endl;
+        for (const auto& pair : roomPrices) {
+            cout << pair.first << ": $" << pair.second << " per night" << endl;
+        }
+        cout << endl;
+    }
+};
